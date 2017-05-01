@@ -1,0 +1,73 @@
+<h4>Welcome, <%= current_user.first_name %>!</h4>
+
+<h5>Sell Product</h5>
+<form action="/shoes" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    Name:<input type="text" name="shoe[name]">
+    Amount:<input type="number" name="shoe[amount]">
+    <input type="submit" label="Sell">
+  </form>
+  
+ <h5>Your products not yet sold:</h5>
+<table>
+    <tr>
+        <td>Product</td>
+        <td>Date Posted</td>
+        <td>Amount</td>
+        <td>Action</td>
+    </tr>
+    <% @unsold_shoes.each do |uns| %>
+        <tr>
+            <td><%= uns.name %></td>
+            <td><%= uns.created_at.strftime("%B %d, %Y") %></td>
+            <td>$<%= uns.amount %></td>
+            <td><form action="/shoes/<%= uns.id %>" method="POST">
+                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                    <input type="hidden" name="_method" value="delete">
+                    <input type="submit" value="Delete">
+                 </form></td>
+        </tr>
+        <% end %>
+</table>
+
+<h5>Sales</h5>
+<table>
+    <tr>
+        <td>Product</td>
+        <td>Date Bought</td>
+        <td>Buyer</td>
+        <td>Amount</td>
+    </tr>
+    <% @sales.each do |sale| %>
+        <tr>
+            <td><%= sale.product %></td>
+            <td><%= sale.created_at.strftime("%B %d, %Y") %></td>
+            <td><%= sale.buyer_first_name %> <%= sale.buyer_last_name %></td>
+            <td>$<%= sale.amount %></td>
+        </tr>
+        <% @sales_sum += sale.amount %>
+    <% end %>
+</table>
+
+<h5>Total: $<%= @sales_sum %></h5>
+
+<h5>Purchases</h5>
+<table>
+    <tr>
+        <td>Product</td>
+        <td>Date Bought</td>
+        <td>Seller</td>
+        <td>Amount</td>
+    </tr>
+    <% @purchases.each do |pur| %>
+        <tr>
+            <td><%= pur.product %></td>
+            <td><%= pur.created_at.strftime("%B %d, %Y") %></td>
+            <td><%= pur.user.first_name %> <%= pur.user.last_name %></td>
+            <td>$<%= pur.amount %></td>
+        </tr>
+        <% @purchases_sum += pur.amount %>
+    <% end %>
+</table>
+
+<h5>Total: $<%= @purchases_sum %></h5>

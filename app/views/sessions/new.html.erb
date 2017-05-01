@@ -1,0 +1,19 @@
+<h1>Login</h1>
+
+<form action="/sessions" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	<input type="text" id="Email" name = "email">
+	<input type="password" id="Password" name = "password">
+	<input type="submit" name="Log In" value="Log In">
+</form>
+
+<h1>Register</h1>
+
+<form action="/users" method="POST">
+    <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+    First Name: <input type="text" name="user[first_name]">
+    Last Name: <input type="text" name="user[last_name]">
+    Email: <input type="text" name="user[email]">
+    Password:<input type="password" name="user[password]">
+    <input type=submit label="New User">
+</form>
